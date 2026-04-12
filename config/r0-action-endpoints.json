@@ -1,0 +1,33 @@
+{
+  "$documentation": "R0 action -> HTTP endpoint mapping. Used by lib/r0-dispatcher.js to translate AP targets (organ:action format) into concrete HTTP calls. Every action listed in config/action-classifier.json as 'r0' should have a corresponding entry here. Missing entries cause r0_action_not_implemented errors at dispatch time.",
+  "$last_synced": "2026-04-12",
+  "actions": {
+    "Radiant:query":  { "organ_url_key": "radiantUrl",     "method": "POST", "path": "/query",            "body_template": { "query": "$.description" } },
+    "Radiant:read":   { "organ_url_key": "radiantUrl",     "method": "GET",  "path": "/blocks/$.urn",     "body_template": null },
+    "Minder:query":   { "organ_url_key": "minderUrl",      "method": "POST", "path": "/query",            "body_template": { "query": "$.description" } },
+    "Minder:get_card":{ "organ_url_key": "minderUrl",      "method": "GET",  "path": "/cards/$.urn",      "body_template": null },
+    "Minder:get_representation": { "organ_url_key": "minderUrl", "method": "GET", "path": "/representations/$.urn", "body_template": null },
+    "Hippocampus:query":   { "organ_url_key": "hippocampusUrl", "method": "POST", "path": "/query",       "body_template": { "query": "$.description" } },
+    "Hippocampus:get_session": { "organ_url_key": "hippocampusUrl", "method": "GET", "path": "/sessions/$.session_id", "body_template": null },
+    "Hippocampus:read_summaries": { "organ_url_key": "hippocampusUrl", "method": "GET", "path": "/sessions/$.session_id/summaries", "body_template": null },
+    "Syntra:search":  { "organ_url_key": "syntraUrl",      "method": "POST", "path": "/search",           "body_template": { "query": "$.description", "limit": 10 } },
+    "Syntra:query":   { "organ_url_key": "syntraUrl",      "method": "POST", "path": "/query",            "body_template": { "query": "$.description" } },
+    "Graph:query":    { "organ_url_key": "graphUrl",       "method": "POST", "path": "/query",            "body_template": { "sql": "$.description" } },
+    "Graph:get_concept": { "organ_url_key": "graphUrl",    "method": "GET",  "path": "/concepts/$.urn",   "body_template": null },
+    "Graph:list_bindings": { "organ_url_key": "graphUrl",  "method": "POST", "path": "/query",            "body_template": { "sql": "SELECT * FROM class_bindings WHERE json_extract(data, '$.from_urn') = '$.urn' OR json_extract(data, '$.to_urn') = '$.urn' LIMIT 50" } },
+    "Engram:read":    { "organ_url_key": "engramUrl",      "method": "GET",  "path": "/documents/$.urn",  "body_template": null },
+    "Engram:query":   { "organ_url_key": "engramUrl",      "method": "POST", "path": "/query",            "body_template": { "query": "$.description" } },
+    "Vectr:query":    { "organ_url_key": "vectrUrl",       "method": "POST", "path": "/query",            "body_template": { "query": "$.description" } },
+    "Vigil:status":   { "organ_url_key": "vigilUrl",       "method": "GET",  "path": "/status",           "body_template": null },
+    "Vigil:query":    { "organ_url_key": "vigilUrl",       "method": "GET",  "path": "/query",            "body_template": null },
+    "SafeVault:status": { "organ_url_key": "safevaultUrl", "method": "GET",  "path": "/status",           "body_template": null },
+    "SafeVault:list_destinations": { "organ_url_key": "safevaultUrl", "method": "GET", "path": "/destinations", "body_template": null },
+    "Sourcegraph:search": { "organ_url_key": "sourcegraphUrl", "method": "POST", "path": "/search",       "body_template": { "query": "$.description" } },
+    "Sourcegraph:read_file": { "organ_url_key": "sourcegraphUrl", "method": "GET", "path": "/files/$.urn", "body_template": null },
+    "Soul:get_persona": { "organ_url_key": "soulUrl",     "method": "GET",  "path": "/personas/$.urn",   "body_template": null },
+    "Soul:query":     { "organ_url_key": "soulUrl",        "method": "POST", "path": "/query",            "body_template": { "query": "$.description" } },
+    "GitSync:status": { "organ_url_key": "gitsyncUrl",    "method": "GET",  "path": "/status",           "body_template": null },
+    "Promote:status": { "organ_url_key": "promoteUrl",    "method": "GET",  "path": "/status",           "body_template": null },
+    "Lobe:query":     { "organ_url_key": "lobeUrl",        "method": "POST", "path": "/query",            "body_template": { "query": "$.description" } }
+  }
+}

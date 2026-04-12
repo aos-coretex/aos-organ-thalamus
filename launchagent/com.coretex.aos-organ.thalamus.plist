@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.coretex.aos-organ.thalamus</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/opt/homebrew/bin/node</string>
+        <string>/Library/AI/AI-AOS/AOS-organ-dev/AOS-organ-thalamus/AOS-organ-thalamus-src/server/index.js</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>/Library/AI/AI-AOS/AOS-organ-dev/AOS-organ-thalamus/AOS-organ-thalamus-src</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>NODE_ENV</key>
+        <string>development</string>
+        <key>THALAMUS_PORT</key>
+        <string>4041</string>
+    </dict>
+
+    <key>StandardOutPath</key>
+    <string>/tmp/com.coretex.aos-organ.thalamus.out.log</string>
+    <key>StandardErrorPath</key>
+    <string>/tmp/com.coretex.aos-organ.thalamus.err.log</string>
+
+    <key>RunAtLoad</key>
+    <false/>
+    <key>KeepAlive</key>
+    <false/>
+</dict>
+</plist>

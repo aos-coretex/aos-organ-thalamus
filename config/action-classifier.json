@@ -1,0 +1,79 @@
+{
+  "$schema_version": "1",
+  "$documentation": "Static action classifier table. Each entry: '<organ>:<action>' -> 'r0' (read-only) or 'write' (state-changing). Used by lib/lane-selector.js to decide R0 vs write-lane. Conservative default: anything not listed is treated as 'write'. The unknown set is surfaced as `ambiguous_targets` so the planner can log them for later table updates. New action_types added to Cerberus's write-executors.js MUST be added here as 'write'.",
+  "$last_synced": "2026-04-12",
+  "$cerberus_registered_actions": [
+    "graph_concept_upsert"
+  ],
+  "actions": {
+    "Radiant:query": "r0",
+    "Radiant:read": "r0",
+    "Radiant:promote": "write",
+    "Radiant:store_context": "write",
+    "Radiant:store_memory": "write",
+    "Radiant:prune": "write",
+
+    "Minder:query": "r0",
+    "Minder:get_card": "r0",
+    "Minder:get_representation": "r0",
+    "Minder:observe": "write",
+    "Minder:derive": "write",
+    "Minder:dream": "write",
+
+    "Hippocampus:query": "r0",
+    "Hippocampus:get_session": "r0",
+    "Hippocampus:read_summaries": "r0",
+    "Hippocampus:store_message": "write",
+    "Hippocampus:summarize": "write",
+
+    "Syntra:search": "r0",
+    "Syntra:query": "r0",
+
+    "Graph:query": "r0",
+    "Graph:get_concept": "r0",
+    "Graph:list_bindings": "r0",
+    "Graph:upsert": "write",
+    "Graph:insert_concept": "write",
+    "Graph:insert_binding": "write",
+
+    "Engram:read": "r0",
+    "Engram:query": "r0",
+    "Engram:ingest": "write",
+    "Engram:update": "write",
+    "Engram:delete": "write",
+
+    "Vectr:query": "r0",
+    "Vectr:embed": "write",
+
+    "Vigil:status": "r0",
+    "Vigil:query": "r0",
+    "Vigil:run_test": "write",
+
+    "SafeVault:status": "r0",
+    "SafeVault:list_destinations": "r0",
+    "SafeVault:backup": "write",
+    "SafeVault:restore": "write",
+
+    "Sourcegraph:search": "r0",
+    "Sourcegraph:read_file": "r0",
+
+    "GitSync:status": "r0",
+    "GitSync:sync": "write",
+
+    "Promote:status": "r0",
+    "Promote:promote": "write",
+
+    "Soul:get_persona": "r0",
+    "Soul:query": "r0",
+    "Soul:observe": "write",
+    "Soul:promote": "write",
+
+    "Lobe:query": "r0",
+    "Lobe:capture": "write"
+  },
+  "intake_heuristic": {
+    "$documentation": "Phase A heuristic — coarse intake-context-based pre-lane decision. Phase B (target-based) is authoritative. These are case-insensitive substring matches against jobRecord.intake_context.target_state (Cortex) or jobRecord.intake_context.intent_label (Receptor).",
+    "r0_keywords": ["report", "status", "show", "list", "get", "view", "read", "query", "search", "find", "lookup", "describe", "summarize"],
+    "write_keywords": ["create", "update", "delete", "ingest", "store", "promote", "deploy", "back up", "restore", "modify", "publish", "scaffold", "remove", "rotate", "rebuild", "sync"]
+  }
+}
