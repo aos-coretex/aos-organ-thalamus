@@ -40,7 +40,7 @@ test('createJobEntity POSTs the right body to /entities', async () => {
 
     assert.equal(fake.requests.length, 1);
     assert.equal(fake.requests[0].method, 'POST');
-    assert.equal(fake.requests[0].url, '/entities');
+    assert.equal(fake.requests[0].url, '/state/entities');
     assert.equal(fake.requests[0].body.entity_urn, 'urn:llm-ops:job:test-1');
     assert.equal(fake.requests[0].body.entity_type, 'job');
     assert.deepEqual(fake.requests[0].body.metadata, { source: 'cortex' });
