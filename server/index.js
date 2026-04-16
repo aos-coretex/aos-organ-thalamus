@@ -14,6 +14,8 @@
 
 import config from './config.js';
 import { createOrgan } from '@coretex/organ-boot';
+import { createLoader } from '@coretex/organ-boot/llm-settings-loader';
+import { initializeUsageAttribution } from '@coretex/organ-boot/usage-attribution';
 
 import { createGraphAdapter } from '../lib/graph-adapter.js';
 import { createArbiterClient } from '../lib/arbiter-client.js';
@@ -111,8 +113,26 @@ const lifecycleAckEmitter = createLifecycleAckEmitter({ spine: spineProxy });
 
 const laneSelector = createLaneSelector({ table: classifierTable });
 
+// MP-CONFIG-1 R5 migration (l9m-5) — LLM settings loader.
+const llmLoader = createLoader({
+  organNumber: 230,
+  organName: 'thalamus',
+  settingsRoot: config.settingsRoot,
+});
+
+// MP-CONFIG-1 R9 — register the process-default usage writer.
+initializeUsageAttribution({ organName: 'Thalamus', graphUrl: config.graphUrl });
+const { config: apDrafterLlmConfig, chat: apDrafterChat } = llmLoader.resolveWithCascade('ap-drafter');
+const apDrafterApiKeyEnv = apDrafterLlmConfig.apiKeyEnvVar || 'ANTHROPIC_API_KEY';
+const apDrafterLlmClient = {
+  chat: apDrafterChat,
+  isAvailable: () => Boolean(process.env[apDrafterApiKeyEnv]),
+  getUsage: () => ({ agent: apDrafterLlmConfig.agentName, model: apDrafterLlmConfig.defaultModel, provider: apDrafterLlmConfig.defaultProvider }),
+};
+
 const apDrafterInstance = createAPDrafter({
-  llmConfig: config.llm,
+  llmConfig: apDrafterLlmConfig,  // legacy field — preserved for any consumer reading maxTokens via config
+  injectedLlm: apDrafterLlmClient,  // boot path supplies the loader-derived client
   missionLoader,
   cmEvidenceClient,
   graphContext,
@@ -216,6 +236,7 @@ const organ = await createOrgan({
     jobStore,
     missionLoader,
     dependencies: config.dependencies,
+    llmLoader,
   }),
 
   onStartup: async ({ spine }) => {

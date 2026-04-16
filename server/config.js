@@ -56,14 +56,10 @@ export default {
   // Mission cache TTL — fallback when msp_updated / bor_updated broadcasts are missing
   missionCacheTtlMs: parseInt(process.env.THALAMUS_MISSION_TTL_MS || '600000', 10), // 10min
 
-  // LLM configuration for AP drafting — shared-lib field names (bug #8)
-  llm: {
-    agentName: 'thalamus-ap-drafter',
-    defaultModel: process.env.THALAMUS_MODEL || 'claude-sonnet-4-6',
-    defaultProvider: 'anthropic',
-    apiKeyEnvVar: 'ANTHROPIC_API_KEY',
-    maxTokens: 4096,
-  },
+  // LLM settings root (consumed by `@coretex/organ-boot/llm-settings-loader`).
+  // MP-CONFIG-1 R5 (l9m-5): no hardcoded model strings; YAML at
+  // `01-Organs/230-Thalamus/thalamus-organ-{default,ap-drafter}-llm-settings.yaml`.
+  settingsRoot: process.env.SETTINGS_ROOT || `${process.env.VAULT_ROOT || '/Library/AI/AI-Infra-MDvaults/MDvault-LLM-Ops'}/01-Organs`,
 
   // Action classifier — populated in relay t3q-4
   actionClassifierPath: './config/action-classifier.json',
